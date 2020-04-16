@@ -1,14 +1,21 @@
 #include <MIDIUSB.h>
 #include <OneShotTimer.h>
 
-#define CC_CHANNEL 0
+#define CC_CHANNEL    0
+#define CC_MSG        0xB0
+#define CC_MSG_HEADER 0x0B
+#define SYS_START     0xFA
+#define SYS_STOP      0xFC
+#define SYS_CLOCK     0xF8
+#define PULSES        24
+#define BLINK_TIME    50
 
 OneShotTimer blink_timer;
 midiEventPacket_t rx;
 uint8_t clock_pulses;
 
 void control_change(byte channel, byte control, byte value){
-  midiEventPacket_t event = {0x0B, 0xB0 | channel, control, value};
+  midiEventPacket_t event = {CC_MSG_HEADER, CC_MSG | channel, control, value};
   MidiUSB.sendMIDI(event);
 }
 
@@ -27,23 +34,37 @@ void loop(){
   rx = MidiUSB.read();
 
   if (rx.header != 0){
-    if (rx.byte1 == 0xFA || rx.byte1 == 0xFC){
+    if (rx.byte1 == SYS_START || rx.byte1 == SYS_STOP){
       clock_pulses = 0;
     }
 
-    if (rx.byte1 == 0xF8){
+    if (rx.byte1 == SYS_CLOCK){
       clock_pulses++;
 
-      if (clock_pulses == 24){
+      if (clock_pulses == PULSES){
         digitalWrite(LED_BUILTIN, HIGH);
-        blink_timer.OneShot(50, unblink);
+        blink_timer.OneShot(BLINK_TIME, unblink);
         clock_pulses = 0;
       }
     }
   }
 
   if (Serial.available()){
-    control_change(CC_CHANNEL, Serial.read() - 48, 66);
+    switch (Serial.read()){
+      case '1':
+        control_change(CC_CHANNEL, 1, 127);
+        break;
+      case '2':
+        control_change(CC_CHANNEL, 1, 1);
+        break;
+      case '3':
+        control_change(CC_CHANNEL, 2, 127);
+        break;
+      case '4':
+        control_change(CC_CHANNEL, 2, 1);
+        break;
+    }
+
     MidiUSB.flush();
   }
 }
