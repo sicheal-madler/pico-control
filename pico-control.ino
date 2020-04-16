@@ -13,33 +13,33 @@ void control_change(byte channel, byte control, byte value){
 }
 
 void unblink(){
-	digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 void setup(){
-	clock_pulses = 0;
+  clock_pulses = 0;
   Serial.begin(115200);
-	pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void loop(){
-	blink_timer.Update();
-	rx = MidiUSB.read();
+  blink_timer.Update();
+  rx = MidiUSB.read();
 
-	if (rx.header != 0){
+  if (rx.header != 0){
     if (rx.byte1 == 0xFA || rx.byte1 == 0xFC){
-			clock_pulses = 0;
-		}
+      clock_pulses = 0;
+    }
 
-		if (rx.byte1 == 0xF8){
-			clock_pulses++;
+    if (rx.byte1 == 0xF8){
+      clock_pulses++;
 
-			if (clock_pulses == 24){
-				digitalWrite(LED_BUILTIN, HIGH);
-				blink_timer.OneShot(50, unblink);
-				clock_pulses = 0;
-			}
-		}
+      if (clock_pulses == 24){
+        digitalWrite(LED_BUILTIN, HIGH);
+        blink_timer.OneShot(50, unblink);
+        clock_pulses = 0;
+      }
+    }
   }
 
   if (Serial.available()){
