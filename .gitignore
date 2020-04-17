@@ -1,3 +1,5 @@
 *.elf
 *.hex
+kicad/**/*cache.lib
+kicad/**/*bak
 

@@ -1,4 +1,371 @@
-EESchema Schematic File Version 2
-EELAYER 25 0
+EESchema Schematic File Version 4
+EELAYER 30 0
 EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L MCU_Module:Arduino_Leonardo A1
+U 1 1 5E992644
+P 2050 2800
+F 0 "A1" H 2050 3981 50  0000 C CNN
+F 1 "Arduino_Leonardo" H 2050 3890 50  0000 C CNN
+F 2 "Module:Arduino_UNO_R3" H 2200 1750 50  0001 L CNN
+F 3 "https://www.arduino.cc/en/Main/ArduinoBoardLeonardo" H 1850 3850 50  0001 C CNN
+	1    2050 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:Rotary_Encoder_Switch SW1
+U 1 1 5E9937AD
+P 2050 1150
+F 0 "SW1" H 2050 1517 50  0000 C CNN
+F 1 "CC0" H 2050 1426 50  0000 C CNN
+F 2 "" H 1900 1310 50  0001 C CNN
+F 3 "~" H 2050 1410 50  0001 C CNN
+	1    2050 1150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:Rotary_Encoder_Switch SW2
+U 1 1 5E993F31
+P 3100 1150
+F 0 "SW2" H 3100 1517 50  0000 C CNN
+F 1 "CC1" H 3100 1426 50  0000 C CNN
+F 2 "" H 2950 1310 50  0001 C CNN
+F 3 "~" H 3100 1410 50  0001 C CNN
+	1    3100 1150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:Rotary_Encoder_Switch SW3
+U 1 1 5E99423F
+P 4150 1150
+F 0 "SW3" H 4150 1517 50  0000 C CNN
+F 1 "CC2" H 4150 1426 50  0000 C CNN
+F 2 "" H 4000 1310 50  0001 C CNN
+F 3 "~" H 4150 1410 50  0001 C CNN
+	1    4150 1150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:Rotary_Encoder_Switch SW4
+U 1 1 5E994544
+P 5200 1150
+F 0 "SW4" H 5200 1517 50  0000 C CNN
+F 1 "CC3" H 5200 1426 50  0000 C CNN
+F 2 "" H 5050 1310 50  0001 C CNN
+F 3 "~" H 5200 1410 50  0001 C CNN
+	1    5200 1150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:Rotary_Encoder_Switch SW5
+U 1 1 5E99488E
+P 6250 1150
+F 0 "SW5" H 6250 1517 50  0000 C CNN
+F 1 "CC4" H 6250 1426 50  0000 C CNN
+F 2 "" H 6100 1310 50  0001 C CNN
+F 3 "~" H 6250 1410 50  0001 C CNN
+	1    6250 1150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT RV1
+U 1 1 5E995341
+P 3350 2050
+F 0 "RV1" H 3280 2096 50  0000 R CNN
+F 1 "SLIDER_POT" H 3280 2005 50  0000 R CNN
+F 2 "" H 3350 2050 50  0001 C CNN
+F 3 "~" H 3350 2050 50  0001 C CNN
+	1    3350 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:LED D2
+U 1 1 5E995BCF
+P 4950 2350
+F 0 "D2" V 4989 2232 50  0000 R CNN
+F 1 "PWR_LED" V 4898 2232 50  0000 R CNN
+F 2 "" H 4950 2350 50  0001 C CNN
+F 3 "~" H 4950 2350 50  0001 C CNN
+	1    4950 2350
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:LED D3
+U 1 1 5E99624B
+P 5550 2350
+F 0 "D3" V 5589 2233 50  0000 R CNN
+F 1 "BEAT_LED" V 5498 2233 50  0000 R CNN
+F 2 "" H 5550 2350 50  0001 C CNN
+F 3 "~" H 5550 2350 50  0001 C CNN
+	1    5550 2350
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0101
+U 1 1 5E99D909
+P 2050 4000
+F 0 "#PWR0101" H 2050 3750 50  0001 C CNN
+F 1 "GND" H 2055 3827 50  0000 C CNN
+F 2 "" H 2050 4000 50  0001 C CNN
+F 3 "" H 2050 4000 50  0001 C CNN
+	1    2050 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1950 3900 2050 3900
+Wire Wire Line
+	2150 3900 2050 3900
+Connection ~ 2050 3900
+Wire Wire Line
+	2050 3900 2050 4000
+NoConn ~ 2150 1800
+NoConn ~ 1950 1800
+NoConn ~ 2550 2200
+NoConn ~ 2550 2400
+NoConn ~ 2550 2600
+NoConn ~ 2550 3500
+NoConn ~ 2550 3600
+NoConn ~ 2550 2900
+NoConn ~ 2550 3000
+NoConn ~ 2550 3100
+NoConn ~ 2550 3200
+NoConn ~ 2550 3300
+NoConn ~ 1550 2200
+NoConn ~ 1550 2300
+NoConn ~ 2350 1050
+NoConn ~ 2350 1250
+$Comp
+L power:GND #PWR0102
+U 1 1 5E9A7AD0
+P 1750 1150
+F 0 "#PWR0102" H 1750 900 50  0001 C CNN
+F 1 "GND" V 1755 1022 50  0000 R CNN
+F 2 "" H 1750 1150 50  0001 C CNN
+F 3 "" H 1750 1150 50  0001 C CNN
+	1    1750 1150
+	0    1    1    0   
+$EndComp
+Text GLabel 1750 1050 0    50   Input ~ 0
+CC0A
+Text GLabel 1750 1250 0    50   Input ~ 0
+CC0B
+Text GLabel 2800 1050 0    50   Input ~ 0
+CC1A
+Text GLabel 2800 1250 0    50   Input ~ 0
+CC1B
+Text GLabel 3850 1050 0    50   Input ~ 0
+CC2A
+Text GLabel 3850 1250 0    50   Input ~ 0
+CC2B
+Text GLabel 4900 1050 0    50   Input ~ 0
+CC3A
+Text GLabel 5950 1250 0    50   Input ~ 0
+CC4B
+Text GLabel 5950 1050 0    50   Input ~ 0
+CC4A
+Text GLabel 4900 1250 0    50   Input ~ 0
+CC3B
+$Comp
+L power:GND #PWR0103
+U 1 1 5E9B2684
+P 2800 1150
+F 0 "#PWR0103" H 2800 900 50  0001 C CNN
+F 1 "GND" V 2805 1022 50  0000 R CNN
+F 2 "" H 2800 1150 50  0001 C CNN
+F 3 "" H 2800 1150 50  0001 C CNN
+	1    2800 1150
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0104
+U 1 1 5E9B2AB9
+P 3850 1150
+F 0 "#PWR0104" H 3850 900 50  0001 C CNN
+F 1 "GND" V 3855 1022 50  0000 R CNN
+F 2 "" H 3850 1150 50  0001 C CNN
+F 3 "" H 3850 1150 50  0001 C CNN
+	1    3850 1150
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0105
+U 1 1 5E9B2FF5
+P 4900 1150
+F 0 "#PWR0105" H 4900 900 50  0001 C CNN
+F 1 "GND" V 4905 1022 50  0000 R CNN
+F 2 "" H 4900 1150 50  0001 C CNN
+F 3 "" H 4900 1150 50  0001 C CNN
+	1    4900 1150
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0106
+U 1 1 5E9B3438
+P 5950 1150
+F 0 "#PWR0106" H 5950 900 50  0001 C CNN
+F 1 "GND" V 5955 1022 50  0000 R CNN
+F 2 "" H 5950 1150 50  0001 C CNN
+F 3 "" H 5950 1150 50  0001 C CNN
+	1    5950 1150
+	0    1    1    0   
+$EndComp
+NoConn ~ 3400 1050
+NoConn ~ 3400 1250
+NoConn ~ 4450 1050
+NoConn ~ 4450 1250
+NoConn ~ 5500 1050
+NoConn ~ 5500 1250
+NoConn ~ 6550 1050
+NoConn ~ 6550 1250
+Text GLabel 1550 2400 0    50   Input ~ 0
+CC0A
+Text GLabel 1550 2500 0    50   Input ~ 0
+CC0B
+Text GLabel 1550 2600 0    50   Input ~ 0
+CC1A
+Text GLabel 1550 2700 0    50   Input ~ 0
+CC1B
+Text GLabel 1550 2800 0    50   Input ~ 0
+CC2A
+Text GLabel 1550 2900 0    50   Input ~ 0
+CC2B
+Text GLabel 1550 3000 0    50   Input ~ 0
+CC3A
+Text GLabel 1550 3100 0    50   Input ~ 0
+CC3B
+Text GLabel 1550 3200 0    50   Input ~ 0
+CC4A
+Text GLabel 1550 3300 0    50   Input ~ 0
+CC4B
+NoConn ~ 1550 3400
+NoConn ~ 1550 3500
+Text GLabel 3500 2050 2    50   Input ~ 0
+SLIDER
+Text GLabel 2550 2800 2    50   Input ~ 0
+SLIDER
+$Comp
+L power:+5V #PWR0107
+U 1 1 5E9C4DE3
+P 2250 1800
+F 0 "#PWR0107" H 2250 1650 50  0001 C CNN
+F 1 "+5V" V 2265 1928 50  0000 L CNN
+F 2 "" H 2250 1800 50  0001 C CNN
+F 3 "" H 2250 1800 50  0001 C CNN
+	1    2250 1800
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0108
+U 1 1 5E9C5BE0
+P 3350 1900
+F 0 "#PWR0108" H 3350 1650 50  0001 C CNN
+F 1 "GND" H 3355 1727 50  0000 C CNN
+F 2 "" H 3350 1900 50  0001 C CNN
+F 3 "" H 3350 1900 50  0001 C CNN
+	1    3350 1900
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:+5V #PWR0109
+U 1 1 5E9C64E3
+P 3350 2200
+F 0 "#PWR0109" H 3350 2050 50  0001 C CNN
+F 1 "+5V" H 3365 2373 50  0000 C CNN
+F 2 "" H 3350 2200 50  0001 C CNN
+F 3 "" H 3350 2200 50  0001 C CNN
+	1    3350 2200
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R1
+U 1 1 5E9C6FE4
+P 4250 2050
+F 0 "R1" H 4320 2096 50  0000 L CNN
+F 1 "220" H 4320 2005 50  0000 L CNN
+F 2 "" V 4180 2050 50  0001 C CNN
+F 3 "~" H 4250 2050 50  0001 C CNN
+	1    4250 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:LED D1
+U 1 1 5E9C78E8
+P 4250 2350
+F 0 "D1" V 4289 2232 50  0000 R CNN
+F 1 "SLIDER_LED" V 4198 2232 50  0000 R CNN
+F 2 "" H 4250 2350 50  0001 C CNN
+F 3 "~" H 4250 2350 50  0001 C CNN
+	1    4250 2350
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 5E9C7E19
+P 4950 2050
+F 0 "R2" H 5020 2096 50  0000 L CNN
+F 1 "220" H 5020 2005 50  0000 L CNN
+F 2 "" V 4880 2050 50  0001 C CNN
+F 3 "~" H 4950 2050 50  0001 C CNN
+	1    4950 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R3
+U 1 1 5E9C80EB
+P 5550 2050
+F 0 "R3" H 5620 2096 50  0000 L CNN
+F 1 "220" H 5620 2005 50  0000 L CNN
+F 2 "" V 5480 2050 50  0001 C CNN
+F 3 "~" H 5550 2050 50  0001 C CNN
+	1    5550 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR0110
+U 1 1 5E9F3B25
+P 4950 1800
+F 0 "#PWR0110" H 4950 1650 50  0001 C CNN
+F 1 "+5V" H 4965 1973 50  0000 C CNN
+F 2 "" H 4950 1800 50  0001 C CNN
+F 3 "" H 4950 1800 50  0001 C CNN
+	1    4950 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0111
+U 1 1 5E9F419D
+P 4950 2600
+F 0 "#PWR0111" H 4950 2350 50  0001 C CNN
+F 1 "GND" H 4955 2427 50  0000 C CNN
+F 2 "" H 4950 2600 50  0001 C CNN
+F 3 "" H 4950 2600 50  0001 C CNN
+	1    4950 2600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4950 2500 4950 2600
+Wire Wire Line
+	4950 2500 5550 2500
+Connection ~ 4950 2500
+Wire Wire Line
+	4950 2500 4250 2500
+Wire Wire Line
+	4250 1900 4950 1900
+Wire Wire Line
+	4950 1900 5550 1900
+Connection ~ 4950 1900
+Wire Wire Line
+	4950 1800 4950 1900
 $EndSCHEMATC
