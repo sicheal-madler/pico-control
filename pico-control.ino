@@ -9,12 +9,15 @@
 #define SYS_CLOCK     0xF8
 #define PULSES        24
 #define BLINK_TIME    50
+#define PIN_SLIDER    A0
+#define SLIDER_FACTOR 8
 
 OneShotTimer blink_timer;
 midiEventPacket_t rx;
-uint8_t clock_pulses;
+uint8_t clock_pulses = 0;
+int slider_val[2] = {0, 1};
 
-void control_change(byte channel, byte control, byte value){
+void control_change(uint8_t channel, uint8_t control, uint8_t value){
   midiEventPacket_t event = {CC_MSG_HEADER, CC_MSG | channel, control, value};
   MidiUSB.sendMIDI(event);
 }
@@ -23,14 +26,7 @@ void unblink(){
   digitalWrite(LED_BUILTIN, LOW);
 }
 
-void setup(){
-  clock_pulses = 0;
-  Serial.begin(115200);
-  pinMode(LED_BUILTIN, OUTPUT);
-}
-
-void loop(){
-  blink_timer.Update();
+void read_midi(){
   rx = MidiUSB.read();
 
   if (rx.header != 0){
@@ -48,24 +44,26 @@ void loop(){
       }
     }
   }
+}
 
-  if (Serial.available()){
-    switch (Serial.read()){
-      case '1':
-        control_change(CC_CHANNEL, 1, 127);
-        break;
-      case '2':
-        control_change(CC_CHANNEL, 1, 1);
-        break;
-      case '3':
-        control_change(CC_CHANNEL, 2, 127);
-        break;
-      case '4':
-        control_change(CC_CHANNEL, 2, 1);
-        break;
-    }
+void read_slider(){
+  slider_val[0] = analogRead(PIN_SLIDER) / SLIDER_FACTOR;
 
-    MidiUSB.flush();
+  if (slider_val[0] != slider_val[1]){
+    control_change(CC_CHANNEL, 0, slider_val[0]);
+    slider_val[1] = slider_val[0];
   }
+}
+
+void setup(){
+  Serial.begin(115200);
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop(){
+  blink_timer.Update();
+  read_midi();
+  read_slider();
+  MidiUSB.flush();
 }
 
