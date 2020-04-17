@@ -11,6 +11,7 @@
 #define BLINK_TIME    50
 #define PIN_SLIDER    A0
 #define SLIDER_FACTOR 8
+#define SERIAL_BAUD   115200
 
 OneShotTimer blink_timer;
 midiEventPacket_t rx;
@@ -30,18 +31,19 @@ void read_midi(){
   rx = MidiUSB.read();
 
   if (rx.header != 0){
-    if (rx.byte1 == SYS_START || rx.byte1 == SYS_STOP){
-      clock_pulses = 0;
-    }
-
-    if (rx.byte1 == SYS_CLOCK){
-      clock_pulses++;
-
-      if (clock_pulses == PULSES){
-        digitalWrite(LED_BUILTIN, HIGH);
-        blink_timer.OneShot(BLINK_TIME, unblink);
+    switch (rx.byte1){
+      case SYS_START:
+      case SYS_STOP:
         clock_pulses = 0;
-      }
+        break;
+
+      case SYS_CLOCK:
+        if (++clock_pulses == PULSES){
+          digitalWrite(LED_BUILTIN, HIGH);
+          blink_timer.OneShot(BLINK_TIME, unblink);
+          clock_pulses = 0;
+        }
+        break;
     }
   }
 }
@@ -56,7 +58,7 @@ void read_slider(){
 }
 
 void setup(){
-  Serial.begin(115200);
+  Serial.begin(SERIAL_BAUD);
   pinMode(LED_BUILTIN, OUTPUT);
 }
 
