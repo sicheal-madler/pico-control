@@ -3,9 +3,7 @@
 const SerialPort = require('serialport')
 
 async function run(argv){
-  console.log(argv)
-
-  var port = new SerialPort('/dev/ttyACM0', {baudRate: 115200})
+  var port = new SerialPort(argv.port, {baudRate: 115200})
   port.on('data', data => console.log(data.toString()))
 
   var controlType = (argv.e ? 'E': 'S').charCodeAt(0)
@@ -20,15 +18,16 @@ async function run(argv){
   var buf = Buffer.from([0xFE, controlType, argv.p, argv.cc, argv.inc, argv.dec, 0xFF])
   console.log(buf)
   port.write(buf)
+
+  port.close()
 }
 
 if (!module.parent){
   run(require('yargs')
     .boolean('e')
-    .number('p')
-    .number('inc')
-    .number('dec')
-    .number('cc')
+    .number(['p', 'inc', 'dec', 'cc'])
+    .demandOption(['e', 'p', 'inc', 'dec', 'cc', 'port'])
+    .help()
     .argv
   )
 }

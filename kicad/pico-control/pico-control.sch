@@ -14,7 +14,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L MCU_Module:Arduino_Leonardo A1
+L pico-control-rescue:Arduino_Leonardo-MCU_Module A1
 U 1 1 5E992644
 P 2050 2800
 F 0 "A1" H 2050 3981 50  0000 C CNN

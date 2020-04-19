@@ -6,4 +6,5 @@ kicad/**/*rescue*
 kicad/**/*autosave*
 kicad/**/sym-lib-table
 node_modules
+build/update*
 
