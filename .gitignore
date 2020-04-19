@@ -3,6 +3,7 @@
 kicad/**/*cache.lib
 kicad/**/*bak
 kicad/**/*rescue*
-kicak/**/*autosave*
+kicad/**/*autosave*
+kicad/**/sym-lib-table
 node_modules
 
