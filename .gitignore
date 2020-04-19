@@ -2,4 +2,7 @@
 *.hex
 kicad/**/*cache.lib
 kicad/**/*bak
+kicad/**/*rescue*
+kicak/**/*autosave*
+node_modules
 
