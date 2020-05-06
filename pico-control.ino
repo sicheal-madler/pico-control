@@ -2,6 +2,7 @@
 
 #include <MIDIUSB.h>
 #include <OneShotTimer.h>
+#include <SimpleRotary.h>
 
 struct ControlConf {
   uint8_t cc, inc, dec;
@@ -18,12 +19,31 @@ struct ControlConf {
 #define PIN_SLIDER    A0
 #define SLIDER_FACTOR 8
 #define SERIAL_BAUD   115200
+#define RELATIVE_DEC  1
+#define RELATIVE_INC  127
+#define ENC0_PIN1			2
+#define ENC0_PIN2     3
+#define ENC1_PIN1     4
+#define ENC1_PIN2     5
+#define ENC2_PIN1     6
+#define ENC2_PIN2     7
+#define ENC3_PIN1     8
+#define ENC3_PIN2     9
+#define ENC4_PIN1     10
+#define ENC4_PIN2     16
+
+SimpleRotary enc0(ENC0_PIN1, ENC0_PIN2, -1);
+SimpleRotary enc1(ENC1_PIN1, ENC1_PIN2, -1);
+SimpleRotary enc2(ENC2_PIN1, ENC2_PIN2, -1);
+SimpleRotary enc3(ENC3_PIN1, ENC3_PIN2, -1);
+SimpleRotary enc4(ENC4_PIN1, ENC4_PIN2, -1);
 
 OneShotTimer blink_timer;
 midiEventPacket_t rx;
 uint8_t clock_pulses = 0, serial_byte;
 int slider_val[2] = {0, 1};
 uint8_t conf_msg[5];
+SimpleRotary* encoders[5] = {&enc0, &enc1, &enc2, &enc3, &enc4};
 //char buf[64];
 
 void control_change(uint8_t channel, uint8_t control, uint8_t value){
@@ -62,6 +82,19 @@ void read_slider(){
   if (slider_val[0] != slider_val[1]){
     control_change(CC_CHANNEL, 0, slider_val[0]);
     slider_val[1] = slider_val[0];
+  }
+}
+
+void read_encoder(uint8_t n){
+  uint8_t val = encoders[n]->rotate();
+
+  switch (val){
+    case 1:
+      control_change(CC_CHANNEL, n + 1, RELATIVE_DEC);
+      break;
+    case 2:
+      control_change(CC_CHANNEL, n + 1, RELATIVE_INC);
+      break;
   }
 }
 
@@ -115,6 +148,11 @@ void loop(){
   read_serial();
   read_midi();
   read_slider();
+
+  for (uint8_t i = 0; i < 5; i++){
+    read_encoder(i);
+  }
+
   MidiUSB.flush();
 }
 
