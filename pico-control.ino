@@ -8,6 +8,7 @@ struct ControlConf {
   uint8_t cc, inc, dec;
 };
 
+//#define DEBUG
 #define CC_CHANNEL    0
 #define CC_MSG        0xB0
 #define CC_MSG_HEADER 0x0B
@@ -16,11 +17,12 @@ struct ControlConf {
 #define SYS_CLOCK     0xF8
 #define PULSES        24
 #define BLINK_TIME    50
-#define PIN_SLIDER    A0
+#define SLIDER_PIN    A0
+#define BEAT_LED_PIN  14
 #define SLIDER_FACTOR 8
 #define SERIAL_BAUD   115200
-#define RELATIVE_DEC  1
-#define RELATIVE_INC  127
+#define RELATIVE_DEC  127
+#define RELATIVE_INC  1
 #define ENC0_PIN1			2
 #define ENC0_PIN2     3
 #define ENC1_PIN1     4
@@ -37,22 +39,32 @@ SimpleRotary enc1(ENC1_PIN1, ENC1_PIN2, -1);
 SimpleRotary enc2(ENC2_PIN1, ENC2_PIN2, -1);
 SimpleRotary enc3(ENC3_PIN1, ENC3_PIN2, -1);
 SimpleRotary enc4(ENC4_PIN1, ENC4_PIN2, -1);
+SimpleRotary* encoders[5] = {&enc0, &enc1, &enc2, &enc3, &enc4};
 
 OneShotTimer blink_timer;
 midiEventPacket_t rx;
+midiEventPacket_t midi_tx;
+
 uint8_t clock_pulses = 0, serial_byte;
 int slider_val[2] = {0, 1};
 uint8_t conf_msg[5];
-SimpleRotary* encoders[5] = {&enc0, &enc1, &enc2, &enc3, &enc4};
-//char buf[64];
+
+#ifdef DEBUG
+char buf[64];
+#endif
 
 void control_change(uint8_t channel, uint8_t control, uint8_t value){
-  midiEventPacket_t event = {CC_MSG_HEADER, CC_MSG | channel, control, value};
-  MidiUSB.sendMIDI(event);
+#ifdef DEBUG
+  sprintf(buf, "chan=%u cc=%u val=%u", channel, control, value);
+  Serial.println(buf);
+#endif
+
+  midi_tx = {CC_MSG_HEADER, CC_MSG | channel, control, value};
+  MidiUSB.sendMIDI(midi_tx);
 }
 
 void unblink(){
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(BEAT_LED_PIN, LOW);
 }
 
 void read_midi(){
@@ -67,7 +79,7 @@ void read_midi(){
 
       case SYS_CLOCK:
         if (++clock_pulses == PULSES){
-          digitalWrite(LED_BUILTIN, HIGH);
+          digitalWrite(BEAT_LED_PIN, HIGH);
           blink_timer.OneShot(BLINK_TIME, unblink);
           clock_pulses = 0;
         }
@@ -77,7 +89,7 @@ void read_midi(){
 }
 
 void read_slider(){
-  slider_val[0] = analogRead(PIN_SLIDER) / SLIDER_FACTOR;
+  slider_val[0] = 127 - analogRead(SLIDER_PIN) / SLIDER_FACTOR;
 
   if (slider_val[0] != slider_val[1]){
     control_change(CC_CHANNEL, 0, slider_val[0]);
@@ -140,11 +152,12 @@ void read_serial(){
 
 void setup(){
   Serial.begin(SERIAL_BAUD);
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(BEAT_LED_PIN, OUTPUT);
 }
 
 void loop(){
   blink_timer.Update();
+
   read_serial();
   read_midi();
   read_slider();
