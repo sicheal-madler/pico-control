@@ -102,10 +102,10 @@ void read_encoder(uint8_t n){
 
   switch (val){
     case 1:
-      control_change(CC_CHANNEL, n, RELATIVE_DEC);
+      control_change(CC_CHANNEL, n + 1, RELATIVE_DEC);
       break;
     case 2:
-      control_change(CC_CHANNEL, n, RELATIVE_INC);
+      control_change(CC_CHANNEL, n + 1, RELATIVE_INC);
       break;
   }
 }
