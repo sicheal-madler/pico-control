@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<MixxxControllerPreset schemaVersion="1" mixxxVersion="">
+	<info/>
+	<controller id="Arduino">
+		<scriptfiles>
+			<file filename="pico-control.js" functionprefix="PicoControl"/>
+		</scriptfiles>
+		<controls>
+			<control>
+				<group>[Master]</group>
+				<key>crossfader</key>
+				<description>MIDI Learned from 796 messages.</description>
+				<status>0xB0</status>
+				<midino>0x00</midino>
+				<options>
+					<invert/>
+				</options>
+			</control>
+			<control>
+				<group>[Master]</group>
+				<key>PicoControl.enc0</key>
+				<status>0xB0</status>
+				<midino>0x01</midino>
+				<options>
+					<Script-Binding/>
+				</options>
+			</control>
+			<control>
+				<group>[Master]</group>
+				<key>PicoControl.enc1</key>
+				<status>0xB0</status>
+				<midino>0x02</midino>
+				<options>
+					<Script-Binding/>
+				</options>
+			</control>
+			<control>
+				<group>[Master]</group>
+				<key>PicoControl.enc2</key>
+				<status>0xB0</status>
+				<midino>0x03</midino>
+				<options>
+					<Script-Binding/>
+				</options>
+			</control>
+			<control>
+				<group>[Master]</group>
+				<key>PicoControl.enc3</key>
+				<status>0xB0</status>
+				<midino>0x04</midino>
+				<options>
+					<Script-Binding/>
+				</options>
+			</control>
+			<control>
+				<group>[Master]</group>
+				<key>PicoControl.enc4</key>
+				<status>0xB0</status>
+				<midino>0x05</midino>
+				<options>
+					<Script-Binding/>
+				</options>
+			</control>
+		</controls>
+		<outputs/>
+	</controller>
+</MixxxControllerPreset>
