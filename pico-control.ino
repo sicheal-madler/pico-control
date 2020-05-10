@@ -23,7 +23,7 @@ struct ControlConf {
 #define SERIAL_BAUD   115200
 #define RELATIVE_DEC  127
 #define RELATIVE_INC  1
-#define ENC0_PIN1			2
+#define ENC0_PIN1     2
 #define ENC0_PIN2     3
 #define ENC1_PIN1     4
 #define ENC1_PIN2     5
@@ -151,7 +151,10 @@ void read_serial(){
 }
 
 void setup(){
+#ifdef DEBUG
   Serial.begin(SERIAL_BAUD);
+#endif
+
   pinMode(BEAT_LED_PIN, OUTPUT);
 }
 
