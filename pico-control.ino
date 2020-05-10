@@ -55,7 +55,7 @@ char buf[64];
 
 void control_change(uint8_t channel, uint8_t control, uint8_t value){
 #ifdef DEBUG
-  sprintf(buf, "chan=%u cc=%u val=%u", channel, control, value);
+  sprintf(buf, "[IN] chan=%u cc=%u val=%u", channel, control, value);
   Serial.println(buf);
 #endif
 
@@ -102,10 +102,10 @@ void read_encoder(uint8_t n){
 
   switch (val){
     case 1:
-      control_change(CC_CHANNEL, n + 1, RELATIVE_DEC);
+      control_change(CC_CHANNEL, n, RELATIVE_DEC);
       break;
     case 2:
-      control_change(CC_CHANNEL, n + 1, RELATIVE_INC);
+      control_change(CC_CHANNEL, n, RELATIVE_INC);
       break;
   }
 }
