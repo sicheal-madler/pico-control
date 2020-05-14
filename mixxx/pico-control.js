@@ -42,9 +42,3 @@ PicoControl.encoder = function(chan, ctrl, val, status, group){
   engine.setValue(conf.group, conf.key, newVal)
 }
 
-PicoControl.enc0 = PicoControl.encoder
-PicoControl.enc1 = PicoControl.encoder
-PicoControl.enc2 = PicoControl.encoder
-PicoControl.enc3 = PicoControl.encoder
-PicoControl.enc4 = PicoControl.encoder
-
