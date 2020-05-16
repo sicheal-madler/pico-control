@@ -18,7 +18,7 @@
 			</control>
 			<control>
 				<group>[Master]</group>
-				<key>PicoControl.enc0</key>
+				<key>PicoControl.encoder</key>
 				<status>0xB0</status>
 				<midino>0x01</midino>
 				<options>
@@ -27,7 +27,7 @@
 			</control>
 			<control>
 				<group>[Master]</group>
-				<key>PicoControl.enc1</key>
+				<key>PicoControl.encoder</key>
 				<status>0xB0</status>
 				<midino>0x02</midino>
 				<options>
@@ -36,7 +36,7 @@
 			</control>
 			<control>
 				<group>[Master]</group>
-				<key>PicoControl.enc2</key>
+				<key>PicoControl.encoder</key>
 				<status>0xB0</status>
 				<midino>0x03</midino>
 				<options>
@@ -45,7 +45,7 @@
 			</control>
 			<control>
 				<group>[Master]</group>
-				<key>PicoControl.enc3</key>
+				<key>PicoControl.encoder</key>
 				<status>0xB0</status>
 				<midino>0x04</midino>
 				<options>
@@ -54,7 +54,7 @@
 			</control>
 			<control>
 				<group>[Master]</group>
-				<key>PicoControl.enc4</key>
+				<key>PicoControl.encoder</key>
 				<status>0xB0</status>
 				<midino>0x05</midino>
 				<options>
