@@ -1,4 +1,4 @@
-#include <EEPROM.h>
+//#include <EEPROM.h>
 
 #include <MIDIUSB.h>
 #include <OneShotTimer.h>
@@ -18,6 +18,7 @@
 #define PULSES        24
 #define BLINK_TIME    50
 #define SLIDER_FACTOR 8
+#define SLIDER_INVERT
 #define SERIAL_BAUD   115200
 #define RELATIVE_DEC  127
 #define RELATIVE_INC  1
@@ -55,7 +56,7 @@ char buf[64];
 
 void control_change(uint8_t channel, uint8_t control, uint8_t value){
 #ifdef DEBUG
-  sprintf(buf, "[IN] chan=%u cc=%u val=%u", channel, control, value);
+  sprintf(buf, "[OUT] chan=%u cc=%u val=%u", channel, control, value);
   Serial.println(buf);
 #endif
 
@@ -89,7 +90,11 @@ void read_midi(){
 }
 
 void read_slider(){
-  slider_val[0] = 127 - analogRead(SLIDER_PIN) / SLIDER_FACTOR;
+  slider_val[0] = analogRead(SLIDER_PIN) / SLIDER_FACTOR;
+
+#ifdef SLIDER_INVERT
+  slider_val[0] = 127 - slider_val[0];
+#endif
 
   if (slider_val[0] != slider_val[1]){
     control_change(CC_CHANNEL, 0, slider_val[0]);
