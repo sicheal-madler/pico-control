@@ -4,9 +4,9 @@
 #include <OneShotTimer.h>
 #include <SimpleRotary.h>
 
-struct ControlConf {
-  uint8_t cc, inc, dec;
-};
+//struct ControlConf {
+//  uint8_t cc, inc, dec;
+//};
 
 //#define DEBUG
 #define CC_CHANNEL    0
@@ -17,12 +17,12 @@ struct ControlConf {
 #define SYS_CLOCK     0xF8
 #define PULSES        24
 #define BLINK_TIME    50
-#define SLIDER_PIN    A0
-#define BEAT_LED_PIN  14
 #define SLIDER_FACTOR 8
 #define SERIAL_BAUD   115200
 #define RELATIVE_DEC  127
 #define RELATIVE_INC  1
+#define SLIDER_PIN    A0
+#define BEAT_LED_PIN  14
 #define ENC0_PIN1     2
 #define ENC0_PIN2     3
 #define ENC1_PIN1     4
@@ -110,21 +110,21 @@ void read_encoder(uint8_t n){
   }
 }
 
-uint8_t wait_byte(){
-  while (!Serial.available()){}
-  return Serial.read();
-}
-
-void read_conf_msg(){
-  for (uint8_t i = 0; i < 5; i++){
-    conf_msg[i] = wait_byte();
-  }
-}
-
-void update_eeprom(){
-  struct ControlConf conf = {conf_msg[2], conf_msg[3], conf_msg[4]};
-  EEPROM.put(conf_msg[1] * sizeof(ControlConf), conf);
-}
+//uint8_t wait_byte(){
+//  while (!Serial.available()){}
+//  return Serial.read();
+//}
+//
+//void read_conf_msg(){
+//  for (uint8_t i = 0; i < 5; i++){
+//    conf_msg[i] = wait_byte();
+//  }
+//}
+//
+//void update_eeprom(){
+//  struct ControlConf conf = {conf_msg[2], conf_msg[3], conf_msg[4]};
+//  EEPROM.put(conf_msg[1] * sizeof(ControlConf), conf);
+//}
 
 //void print_conf(uint8_t n){
 //  struct ControlConf conf;
@@ -133,22 +133,22 @@ void update_eeprom(){
 //  Serial.print(buf);
 //}
 
-void read_serial(){
-  if (Serial.available()){
-    serial_byte = Serial.read();
-
-    switch (serial_byte){
-      case 0xFE:
-        read_conf_msg();
-        break;
-
-      case 0xFF:
-        update_eeprom();
-        //print_conf(conf_msg[1]);
-        break;
-    }  
-  }
-}
+//void read_serial(){
+//  if (Serial.available()){
+//    serial_byte = Serial.read();
+//
+//    switch (serial_byte){
+//      case 0xFE:
+//        read_conf_msg();
+//        break;
+//
+//      case 0xFF:
+//        update_eeprom();
+//        //print_conf(conf_msg[1]);
+//        break;
+//    }  
+//  }
+//}
 
 void setup(){
 #ifdef DEBUG
@@ -161,7 +161,7 @@ void setup(){
 void loop(){
   blink_timer.Update();
 
-  read_serial();
+  //read_serial();
   read_midi();
   read_slider();
 
