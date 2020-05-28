@@ -3,6 +3,7 @@
 #include <MIDIUSB.h>
 #include <OneShotTimer.h>
 #include <SimpleRotary.h>
+#include <JC_Button.h>
 
 //struct ControlConf {
 //  uint8_t cc, inc, dec;
@@ -22,8 +23,11 @@
 #define SERIAL_BAUD   115200
 #define RELATIVE_DEC  127
 #define RELATIVE_INC  1
+#define CC_DELAY      250
 #define SLIDER_PIN    A0
 #define BEAT_LED_PIN  14
+#define ENC_OFFSET    1
+#define BUTTON_OFFSET 6
 #define ENC0_PIN1     2
 #define ENC0_PIN2     3
 #define ENC1_PIN1     4
@@ -34,6 +38,11 @@
 #define ENC3_PIN2     9
 #define ENC4_PIN1     10
 #define ENC4_PIN2     16
+#define SW0_PIN       14
+#define SW1_PIN       15
+#define SW2_PIN       A1
+#define SW3_PIN       A2
+#define SW4_PIN       A3
 
 SimpleRotary enc0(ENC0_PIN1, ENC0_PIN2, -1);
 SimpleRotary enc1(ENC1_PIN1, ENC1_PIN2, -1);
@@ -42,13 +51,21 @@ SimpleRotary enc3(ENC3_PIN1, ENC3_PIN2, -1);
 SimpleRotary enc4(ENC4_PIN1, ENC4_PIN2, -1);
 SimpleRotary* encoders[5] = {&enc0, &enc1, &enc2, &enc3, &enc4};
 
-OneShotTimer blink_timer;
-midiEventPacket_t rx;
+Button b0(SW0_PIN);
+Button b1(SW1_PIN);
+Button b2(SW2_PIN);
+Button b3(SW3_PIN);
+Button b4(SW4_PIN);
+Button* buttons[5] = {&b0, &b1, &b2, &b3, &b4};
+
+//OneShotTimer blink_timer;
+//midiEventPacket_t rx;
 midiEventPacket_t midi_tx;
 
-uint8_t clock_pulses = 0, serial_byte;
+//uint8_t clock_pulses = 0, serial_byte;
 int slider_val[2] = {0, 1};
-uint8_t conf_msg[5];
+uint32_t last_button_cc[5] = {0, 0, 0, 0, 0};
+//uint8_t conf_msg[5];
 
 #ifdef DEBUG
 char buf[64];
@@ -64,30 +81,30 @@ void control_change(uint8_t channel, uint8_t control, uint8_t value){
   MidiUSB.sendMIDI(midi_tx);
 }
 
-void unblink(){
-  digitalWrite(BEAT_LED_PIN, LOW);
-}
-
-void read_midi(){
-  rx = MidiUSB.read();
-
-  if (rx.header != 0){
-    switch (rx.byte1){
-      case SYS_START:
-      case SYS_STOP:
-        clock_pulses = 0;
-        break;
-
-      case SYS_CLOCK:
-        if (++clock_pulses == PULSES){
-          digitalWrite(BEAT_LED_PIN, HIGH);
-          blink_timer.OneShot(BLINK_TIME, unblink);
-          clock_pulses = 0;
-        }
-        break;
-    }
-  }
-}
+//void unblink(){
+//  digitalWrite(BEAT_LED_PIN, LOW);
+//}
+//
+//void read_midi(){
+//  rx = MidiUSB.read();
+//
+//  if (rx.header != 0){
+//    switch (rx.byte1){
+//      case SYS_START:
+//      case SYS_STOP:
+//        clock_pulses = 0;
+//        break;
+//
+//      case SYS_CLOCK:
+//        if (++clock_pulses == PULSES){
+//          digitalWrite(BEAT_LED_PIN, HIGH);
+//          blink_timer.OneShot(BLINK_TIME, unblink);
+//          clock_pulses = 0;
+//        }
+//        break;
+//    }
+//  }
+//}
 
 void read_slider(){
   slider_val[0] = analogRead(SLIDER_PIN) / SLIDER_FACTOR;
@@ -107,11 +124,20 @@ void read_encoder(uint8_t n){
 
   switch (val){
     case 1:
-      control_change(CC_CHANNEL, n + 1, RELATIVE_DEC);
+      control_change(CC_CHANNEL, n + ENC_OFFSET, RELATIVE_DEC);
       break;
     case 2:
-      control_change(CC_CHANNEL, n + 1, RELATIVE_INC);
+      control_change(CC_CHANNEL, n + ENC_OFFSET, RELATIVE_INC);
       break;
+  }
+}
+
+void read_button(uint8_t n){
+  uint32_t now = millis();
+
+  if (buttons[n]->read() && now - last_button_cc[n] >= CC_DELAY){
+    control_change(CC_CHANNEL, n + BUTTON_OFFSET, 127);
+    last_button_cc[n] = now;
   }
 }
 
@@ -160,18 +186,26 @@ void setup(){
   Serial.begin(SERIAL_BAUD);
 #endif
 
-  pinMode(BEAT_LED_PIN, OUTPUT);
+  //pinMode(BEAT_LED_PIN, OUTPUT);
+
+  for (uint8_t i = 0; i < 5; i++){
+    buttons[i]->begin();
+  }
 }
 
 void loop(){
-  blink_timer.Update();
+  //blink_timer.Update();
 
   //read_serial();
-  read_midi();
+  //read_midi();
   read_slider();
 
   for (uint8_t i = 0; i < 5; i++){
     read_encoder(i);
+  }
+
+  for (uint8_t i = 0; i < 5; i++){
+    read_button(i);
   }
 
   MidiUSB.flush();
