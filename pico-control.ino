@@ -1,7 +1,7 @@
 //#include <EEPROM.h>
 
 #include <MIDIUSB.h>
-#include <OneShotTimer.h>
+//#include <OneShotTimer.h>
 #include <SimpleRotary.h>
 #include <JC_Button.h>
 
@@ -9,25 +9,29 @@
 //  uint8_t cc, inc, dec;
 //};
 
-//#define DEBUG
-#define CC_CHANNEL    0
-#define CC_MSG        0xB0
-#define CC_MSG_HEADER 0x0B
-#define SYS_START     0xFA
-#define SYS_STOP      0xFC
-#define SYS_CLOCK     0xF8
-#define PULSES        24
-#define BLINK_TIME    50
-#define SLIDER_FACTOR 8
+#define DEBUG
+
+#define CC_CHANNEL        0
+#define CC_MSG            0xB0
+#define CC_MSG_HEADER     0x0B
+#define SYS_START         0xFA
+#define SYS_STOP          0xFC
+#define SYS_CLOCK         0xF8
+#define PULSES            24
+#define BLINK_TIME        50
+#define SLIDER_FACTOR     8
 #define SLIDER_INVERT
-#define SERIAL_BAUD   115200
-#define RELATIVE_DEC  127
-#define RELATIVE_INC  1
-#define CC_DELAY      250
+#define SERIAL_BAUD       115200
+#define RELATIVE_DEC      127
+#define RELATIVE_INC      1
+#define CC_DELAY          250
+#define ENC_OFFSET        1
+#define BUTTON_OFFSET     6
+#define BUTTON_OFFSET2    11
+#define BUTTON_LONGPRESS  300
+
 #define SLIDER_PIN    A0
 #define BEAT_LED_PIN  14
-#define ENC_OFFSET    1
-#define BUTTON_OFFSET 6
 #define ENC0_PIN1     2
 #define ENC0_PIN2     3
 #define ENC1_PIN1     4
@@ -138,6 +142,10 @@ void read_button(uint8_t n){
   if (buttons[n]->read() && now - last_button_cc[n] >= CC_DELAY){
     control_change(CC_CHANNEL, n + BUTTON_OFFSET, 127);
     last_button_cc[n] = now;
+  }
+
+  if (buttons[n]->pressedFor(BUTTON_LONGPRESS)){
+    control_change(CC_CHANNEL, n + BUTTON_OFFSET2, 127);
   }
 }
 
