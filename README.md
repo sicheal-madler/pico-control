@@ -13,3 +13,6 @@ simple MIDI controller
 ## debug
 * `#define DEBUG`
 * `make serial`
+
+## mixxx
+see `mixxx/pico-control.js` for examples
